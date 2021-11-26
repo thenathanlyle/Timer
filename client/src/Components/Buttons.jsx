@@ -1,7 +1,9 @@
-export default function Buttons() {
+export default function Buttons(props) {
   return (
     <div>
-      <h1>Button</h1>
+      <button className="stopwatch" onClick={props.start}>
+        Start
+      </button>
     </div>
   );
 }
