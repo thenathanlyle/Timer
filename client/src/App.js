@@ -5,11 +5,30 @@ import "./App.css";
 
 function App() {
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
+  const [interv, setInterv] = useState();
+  const [status, setStatus] = useState(0);
+  // not started on = 0
+  //starts on = 1
+  // pause on = 2
 
   const start = () => {
     run();
-    setInterval(run, 10);
+    setStatus(1);
+    setInterv(setInterval(run, 10));
   };
+
+  const stop = () => {
+    clearInterval(interv);
+    setStatus(2);
+  };
+
+  const reset = () => {
+    clearInterval(interv);
+    setStatus(0);
+    setTime({ ms: 0, s: 0, m: 0, h: 0 });
+  };
+
+  const resume = () => start();
 
   let updatedMs = time.ms,
     updatedS = time.s,
@@ -38,7 +57,13 @@ function App() {
       <div className="holderClock">
         <div className="timer">
           <Display time={time} />
-          <Buttons start={start} />
+          <Buttons
+            status={status}
+            start={start}
+            stop={stop}
+            reset={reset}
+            resume={resume}
+          />
         </div>
       </div>
     </div>
